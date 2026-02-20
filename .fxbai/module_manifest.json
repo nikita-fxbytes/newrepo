@@ -1,0 +1,573 @@
+{
+  "schemaVersion": "v1",
+  "projectId": "projectForNext",
+  "backend": {
+    "modules": [
+      {
+        "id": "07c64d2d-ab0e-47c9-b2f0-c93e75a13819",
+        "name": "policy",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/policy",
+        "files": [],
+        "dependencies": [
+          "database"
+        ],
+        "dependents": [
+          "policy-list-page"
+        ],
+        "metadata": {
+          "description": "Policy management module handling CRUD operations for technical, security, and architectural rules.",
+          "version": "1.0.0",
+          "tags": [
+            "create-policy",
+            "update-policy",
+            "delete-policy",
+            "list-policies",
+            "get-policy"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "class-validator",
+            "class-transformer"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "POLICIES_PER_PAGE=20"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136",
+        "name": "authentication",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/authentication",
+        "files": [],
+        "dependencies": [
+          "database"
+        ],
+        "dependents": [
+          "login-page",
+          "register-page"
+        ],
+        "metadata": {
+          "description": "Authentication module for handling user login, registration, and token management.",
+          "version": "1.0.0",
+          "tags": [
+            "login",
+            "register",
+            "logout",
+            "refresh-token",
+            "password-reset"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "jsonwebtoken",
+            "bcrypt"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "JWT_SECRET",
+            "JWT_EXPIRATION",
+            "REFRESH_TOKEN_EXPIRATION"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "28f7e74a-78a5-4563-8b86-e88e54d9aa95",
+        "name": "user",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/user",
+        "files": [],
+        "dependencies": [
+          "database"
+        ],
+        "dependents": [
+          "dashboard-page"
+        ],
+        "metadata": {
+          "description": "User management module for handling user profiles, preferences, and roles.",
+          "version": "1.0.0",
+          "tags": [
+            "create-user",
+            "update-user",
+            "delete-user",
+            "list-users",
+            "get-user"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "class-validator",
+            "class-transformer"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "USERS_PER_PAGE=20"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "24445d38-03d5-4a14-b08f-7169bdd6662d",
+        "name": "role",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/role",
+        "files": [],
+        "dependencies": [
+          "database"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Role management module for handling user roles and permissions.",
+          "version": "1.0.0",
+          "tags": [
+            "create-role",
+            "update-role",
+            "delete-role",
+            "list-roles",
+            "assign-permission"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "class-validator",
+            "class-transformer"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "ROLES_PER_PAGE=20"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "5e251615-6f3b-4fa8-ab81-93da432f4a57",
+        "name": "permission",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/permission",
+        "files": [],
+        "dependencies": [
+          "database"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Permission management module for defining and managing fine-grained permissions.",
+          "version": "1.0.0",
+          "tags": [
+            "create-permission",
+            "update-permission",
+            "delete-permission",
+            "list-permissions"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "class-validator",
+            "class-transformer"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "PERMISSIONS_PER_PAGE=20"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "8e0604a7-f159-4630-be5d-50480d353d8f",
+        "name": "api-response",
+        "type": "util",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/utils/api-response.ts",
+        "files": [],
+        "dependencies": [],
+        "dependents": [],
+        "metadata": {
+          "description": "Utility for standardizing API responses across the application.",
+          "version": "1.0.0",
+          "tags": [
+            "success-response",
+            "error-response"
+          ]
+        },
+        "packages": {
+          "dependencies": [],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: medium, stack: backend)"
+          }
+        ]
+      }
+    ]
+  },
+  "frontend": {
+    "modules": [
+      {
+        "id": "39a18697-6524-4c16-9842-5e7d7ee857b2",
+        "name": "login-page",
+        "type": "page",
+        "stack": "frontend",
+        "status": "pending",
+        "path": "client/src/pages/login.tsx",
+        "files": [],
+        "dependencies": [
+          "authentication"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Login page for user authentication.",
+          "version": "1.0.0",
+          "tags": [
+            "user-login",
+            "redirect-after-login"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "axios"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
+          }
+        ]
+      },
+      {
+        "id": "d4f4aefe-e901-494b-9223-cb1ff19d5f12",
+        "name": "register-page",
+        "type": "page",
+        "stack": "frontend",
+        "status": "pending",
+        "path": "client/src/pages/register.tsx",
+        "files": [],
+        "dependencies": [
+          "authentication"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Registration page for new users.",
+          "version": "1.0.0",
+          "tags": [
+            "user-registration",
+            "form-validation"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "axios"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
+          }
+        ]
+      },
+      {
+        "id": "2d08dc41-d1df-43e2-8d72-44a316d34864",
+        "name": "dashboard-page",
+        "type": "page",
+        "stack": "frontend",
+        "status": "pending",
+        "path": "client/src/pages/dashboard.tsx",
+        "files": [],
+        "dependencies": [
+          "user"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Main dashboard page for logged-in users.",
+          "version": "1.0.0",
+          "tags": [
+            "display-user-info",
+            "manage-preferences"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "axios"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
+          }
+        ]
+      },
+      {
+        "id": "b00340bc-6192-4ade-8c22-6b71f19d5ef6",
+        "name": "policy-list-page",
+        "type": "page",
+        "stack": "frontend",
+        "status": "pending",
+        "path": "client/src/pages/policies/index.tsx",
+        "files": [],
+        "dependencies": [
+          "policy"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Page for listing all policies with options to create, update, and delete.",
+          "version": "1.0.0",
+          "tags": [
+            "list-policies",
+            "create-policy",
+            "update-policy",
+            "delete-policy"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "axios"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
+          }
+        ]
+      },
+      {
+        "id": "e3df810e-9c7c-4b96-8c6f-1f559544022f",
+        "name": "policy-form",
+        "type": "component",
+        "stack": "frontend",
+        "status": "pending",
+        "path": "client/src/components/policy/PolicyForm.tsx",
+        "files": [],
+        "dependencies": [
+          "api"
+        ],
+        "dependents": [],
+        "metadata": {
+          "description": "Reusable form component for creating and updating policies.",
+          "version": "1.0.0",
+          "tags": [
+            "form-validation",
+            "submit-policy"
+          ]
+        },
+        "packages": {
+          "dependencies": [],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-17T10:31:04.948Z",
+        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-17T10:31:04.948Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
+          }
+        ]
+      }
+    ]
+  },
+  "generatedAt": "2026-02-17T10:30:46.550Z",
+  "lastModifiedAt": "2026-02-17T10:30:46.553Z",
+  "dependencyGraph": {
+    "07c64d2d-ab0e-47c9-b2f0-c93e75a13819": [
+      "database"
+    ],
+    "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136": [
+      "database"
+    ],
+    "28f7e74a-78a5-4563-8b86-e88e54d9aa95": [
+      "database"
+    ],
+    "24445d38-03d5-4a14-b08f-7169bdd6662d": [
+      "database"
+    ],
+    "5e251615-6f3b-4fa8-ab81-93da432f4a57": [
+      "database"
+    ],
+    "8e0604a7-f159-4630-be5d-50480d353d8f": [],
+    "39a18697-6524-4c16-9842-5e7d7ee857b2": [
+      "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136"
+    ],
+    "d4f4aefe-e901-494b-9223-cb1ff19d5f12": [
+      "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136"
+    ],
+    "2d08dc41-d1df-43e2-8d72-44a316d34864": [
+      "28f7e74a-78a5-4563-8b86-e88e54d9aa95"
+    ],
+    "b00340bc-6192-4ade-8c22-6b71f19d5ef6": [
+      "07c64d2d-ab0e-47c9-b2f0-c93e75a13819"
+    ],
+    "e3df810e-9c7c-4b96-8c6f-1f559544022f": [
+      "api"
+    ]
+  },
+  "codeStyle": {
+    "naming": {
+      "files": "kebab-case",
+      "classes": "PascalCase",
+      "functions": "camelCase",
+      "constants": "UPPER_SNAKE_CASE"
+    },
+    "imports": {
+      "order": [
+        "builtin",
+        "external",
+        "internal",
+        "parent",
+        "sibling",
+        "index"
+      ],
+      "pathAliases": {
+        "@app/*": "src/*",
+        "@shared/*": "src/shared/*",
+        "@modules/*": "src/modules/*"
+      }
+    },
+    "formatting": {
+      "indentSize": 2,
+      "useTabs": false,
+      "singleQuote": true,
+      "trailingComma": "all",
+      "semicolons": true
+    }
+  },
+  "hooks": {
+    "preGenerate": [],
+    "postGenerate": [],
+    "onError": []
+  },
+  "statistics": {
+    "totalModules": 11,
+    "totalFiles": 0,
+    "modulesByType": {
+      "api-module": 5,
+      "util": 1,
+      "page": 4,
+      "component": 1
+    },
+    "modulesByStatus": {
+      "pending": 11
+    }
+  },
+  "protectedBranches": [
+    "main",
+    "master"
+  ]
+}
