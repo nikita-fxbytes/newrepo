@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "v1",
+  "policies": [
+    {
+      "id": "common-architecture-guidelines",
+      "type": "required",
+      "target": "code-pattern",
+      "value": "All business logic must reside within modules. Shared logic must be placed in common or utils directories. No business logic in main.ts. One module corresponds to one business domain. Each module must contain one controller and one service. DTOs, entities, and interfaces must be separated."
+    },
+    {
+      "id": "common-technology-stack",
+      "type": "required",
+      "target": "config",
+      "value": "Backend: NestJS (TypeScript), Database: PostgreSQL with TypeORM, Authentication: JWT (Access Token, Refresh Token), API: REST over HTTPS."
+    },
+    {
+      "id": "common-security-policies",
+      "type": "required",
+      "target": "config",
+      "value": "HTTPS is mandatory for all APIs. Explicit CORS configuration is required. Sensitive data must not be included in URLs or query parameters. Tokens must never be stored in localStorage; use secure cookies instead. Refresh tokens must be invalidated upon logout. All inputs must be validated using DTOs."
+    },
+    {
+      "id": "client-api-design",
+      "type": "required",
+      "target": "code-pattern",
+      "value": "APIs must follow RESTful, resource-oriented design principles. URL format: /api/v1/<resource> using lowercase, kebab-case, plural nouns. No verbs should be included in URLs."
+    },
+    {
+      "id": "client-authentication-authorization",
+      "type": "required",
+      "target": "feature",
+      "value": "Use JWT for authentication with short-lived access tokens and long-lived refresh tokens. Implement role-based access control (RBAC) for authorization. No protected API can be accessed without a valid access token."
+    },
+    {
+      "id": "metadata",
+      "type": "warning",
+      "target": "config",
+      "value": "{\"extractedStack\":[\"NestJS\",\"TypeScript\",\"PostgreSQL\",\"TypeORM\",\"JWT\",\"Access Token\",\"Refresh Token\",\"REST\",\"HTTPS\",\"Token-based authentication\"],\"selectedStackGuidelineFiles\":[\"Stack Policy Guideline/nestjs guideline.docx\",\"Stack Policy Guideline/postgresql guideline.docx\",\"Stack Policy Guideline/typeorm guideline.docx\",\"Stack Policy Guideline/typescript guideline.docx\"],\"priorityOrder\":[\"Common Policy\",\"Client Policy\",\"Stack Policy Guideline\"],\"sourceFiles\":{\"common\":[\"Common Policy/common-policy-guideline.md\"],\"client\":[\"Client Policy/client policy document.docx\"],\"company\":[],\"stack\":[\"Stack Policy Guideline/nestjs guideline.docx\",\"Stack Policy Guideline/postgresql guideline.docx\",\"Stack Policy Guideline/typeorm guideline.docx\",\"Stack Policy Guideline/typescript guideline.docx\"]}}"
+    }
+  ]
+}
