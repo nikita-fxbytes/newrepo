@@ -1,31 +1,35 @@
 {
   "schemaVersion": "v1",
-  "projectId": "projectForNext",
+  "projectId": "newrepo",
   "backend": {
     "modules": [
       {
-        "id": "07c64d2d-ab0e-47c9-b2f0-c93e75a13819",
-        "name": "policy",
+        "id": "f6b5efef-2eee-4ccf-9eb9-02125e8f14d3",
+        "name": "product",
         "type": "api-module",
         "stack": "backend",
         "status": "pending",
-        "path": "server/src/modules/policy",
+        "path": "server/src/modules/product",
         "files": [],
         "dependencies": [
-          "database"
+          "database",
+          "storage",
+          "cache"
         ],
         "dependents": [
-          "policy-list-page"
+          "cart",
+          "order"
         ],
         "metadata": {
-          "description": "Policy management module handling CRUD operations for technical, security, and architectural rules.",
+          "description": "Product management module handling CRUD operations, inventory, pricing, and categories",
           "version": "1.0.0",
           "tags": [
-            "create-policy",
-            "update-policy",
-            "delete-policy",
-            "list-policies",
-            "get-policy"
+            "create-product",
+            "update-product",
+            "delete-product",
+            "list-products",
+            "search-products",
+            "manage-inventory"
           ]
         },
         "packages": {
@@ -37,94 +41,46 @@
         },
         "config": {
           "env": [
-            "POLICIES_PER_PAGE=20"
+            "PRODUCTS_PER_PAGE=20",
+            "ENABLE_PRODUCT_CACHE=true"
           ],
           "scripts": {}
         },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
         "generationLog": [
           {
-            "timestamp": "2026-02-17T10:31:04.948Z",
+            "timestamp": "2026-02-23T12:33:03.910Z",
             "action": "created",
             "message": "Auto-detected from blueprint (priority: high, stack: backend)"
           }
         ]
       },
       {
-        "id": "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136",
-        "name": "authentication",
+        "id": "bb7d5112-bed4-4b6c-b6a7-2937460ddb82",
+        "name": "cart",
         "type": "api-module",
         "stack": "backend",
         "status": "pending",
-        "path": "server/src/modules/authentication",
+        "path": "server/src/modules/cart",
         "files": [],
         "dependencies": [
-          "database"
+          "database",
+          "product"
         ],
         "dependents": [
-          "login-page",
-          "register-page"
+          "order",
+          "checkout"
         ],
         "metadata": {
-          "description": "Authentication module for handling user login, registration, and token management.",
+          "description": "Shopping cart module for managing user cart items, including adding, updating, and removing products",
           "version": "1.0.0",
           "tags": [
-            "login",
-            "register",
-            "logout",
-            "refresh-token",
-            "password-reset"
-          ]
-        },
-        "packages": {
-          "dependencies": [
-            "jsonwebtoken",
-            "bcrypt"
-          ],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [
-            "JWT_SECRET",
-            "JWT_EXPIRATION",
-            "REFRESH_TOKEN_EXPIRATION"
-          ],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
-          }
-        ]
-      },
-      {
-        "id": "28f7e74a-78a5-4563-8b86-e88e54d9aa95",
-        "name": "user",
-        "type": "api-module",
-        "stack": "backend",
-        "status": "pending",
-        "path": "server/src/modules/user",
-        "files": [],
-        "dependencies": [
-          "database"
-        ],
-        "dependents": [
-          "dashboard-page"
-        ],
-        "metadata": {
-          "description": "User management module for handling user profiles, preferences, and roles.",
-          "version": "1.0.0",
-          "tags": [
-            "create-user",
-            "update-user",
-            "delete-user",
-            "list-users",
-            "get-user"
+            "add-to-cart",
+            "update-cart-item",
+            "remove-from-cart",
+            "list-cart-items",
+            "clear-cart"
           ]
         },
         "packages": {
@@ -136,41 +92,92 @@
         },
         "config": {
           "env": [
-            "USERS_PER_PAGE=20"
+            "CART_EXPIRY_TIME=3600"
           ],
           "scripts": {}
         },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
         "generationLog": [
           {
-            "timestamp": "2026-02-17T10:31:04.948Z",
+            "timestamp": "2026-02-23T12:33:03.910Z",
             "action": "created",
             "message": "Auto-detected from blueprint (priority: high, stack: backend)"
           }
         ]
       },
       {
-        "id": "24445d38-03d5-4a14-b08f-7169bdd6662d",
-        "name": "role",
+        "id": "c4586daf-72d3-4c78-b53c-b79dad8e67f8",
+        "name": "order",
         "type": "api-module",
         "stack": "backend",
         "status": "pending",
-        "path": "server/src/modules/role",
+        "path": "server/src/modules/order",
         "files": [],
         "dependencies": [
-          "database"
+          "database",
+          "cart",
+          "product"
+        ],
+        "dependents": [
+          "checkout",
+          "payment"
+        ],
+        "metadata": {
+          "description": "Order management module for processing and tracking user orders, including order history",
+          "version": "1.0.0",
+          "tags": [
+            "create-order",
+            "update-order-status",
+            "list-orders",
+            "get-order-details"
+          ]
+        },
+        "packages": {
+          "dependencies": [
+            "class-validator",
+            "class-transformer"
+          ],
+          "devDependencies": []
+        },
+        "config": {
+          "env": [
+            "ORDER_CONFIRMATION_EMAIL=true"
+          ],
+          "scripts": {}
+        },
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
+        "generationLog": [
+          {
+            "timestamp": "2026-02-23T12:33:03.910Z",
+            "action": "created",
+            "message": "Auto-detected from blueprint (priority: high, stack: backend)"
+          }
+        ]
+      },
+      {
+        "id": "eaedeccb-21ac-4100-8373-72aacc7ef4d7",
+        "name": "checkout",
+        "type": "api-module",
+        "stack": "backend",
+        "status": "pending",
+        "path": "server/src/modules/checkout",
+        "files": [],
+        "dependencies": [
+          "database",
+          "cart",
+          "order",
+          "payment"
         ],
         "dependents": [],
         "metadata": {
-          "description": "Role management module for handling user roles and permissions.",
+          "description": "Checkout module for managing the checkout process, including payment processing and order confirmation",
           "version": "1.0.0",
           "tags": [
-            "create-role",
-            "update-role",
-            "delete-role",
-            "list-roles",
-            "assign-permission"
+            "process-checkout",
+            "validate-payment",
+            "confirm-order"
           ]
         },
         "packages": {
@@ -182,40 +189,42 @@
         },
         "config": {
           "env": [
-            "ROLES_PER_PAGE=20"
+            "ENABLE_CHECKOUT_LOGGING=true"
           ],
           "scripts": {}
         },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
         "generationLog": [
           {
-            "timestamp": "2026-02-17T10:31:04.948Z",
+            "timestamp": "2026-02-23T12:33:03.910Z",
             "action": "created",
             "message": "Auto-detected from blueprint (priority: high, stack: backend)"
           }
         ]
       },
       {
-        "id": "5e251615-6f3b-4fa8-ab81-93da432f4a57",
-        "name": "permission",
+        "id": "723bfffd-2fc3-4f74-95a1-aee2d0c7fb0f",
+        "name": "payment",
         "type": "api-module",
         "stack": "backend",
         "status": "pending",
-        "path": "server/src/modules/permission",
+        "path": "server/src/modules/payment",
         "files": [],
         "dependencies": [
-          "database"
+          "database",
+          "order"
         ],
-        "dependents": [],
+        "dependents": [
+          "checkout"
+        ],
         "metadata": {
-          "description": "Permission management module for defining and managing fine-grained permissions.",
+          "description": "Payment module for integrating payment gateways and managing payment transactions",
           "version": "1.0.0",
           "tags": [
-            "create-permission",
-            "update-permission",
-            "delete-permission",
-            "list-permissions"
+            "initiate-payment",
+            "verify-payment",
+            "refund-payment"
           ]
         },
         "packages": {
@@ -227,53 +236,17 @@
         },
         "config": {
           "env": [
-            "PERMISSIONS_PER_PAGE=20"
+            "PAYMENT_GATEWAY_URL=https://api.paymentgateway.com"
           ],
           "scripts": {}
         },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
         "generationLog": [
           {
-            "timestamp": "2026-02-17T10:31:04.948Z",
+            "timestamp": "2026-02-23T12:33:03.910Z",
             "action": "created",
             "message": "Auto-detected from blueprint (priority: high, stack: backend)"
-          }
-        ]
-      },
-      {
-        "id": "8e0604a7-f159-4630-be5d-50480d353d8f",
-        "name": "api-response",
-        "type": "util",
-        "stack": "backend",
-        "status": "pending",
-        "path": "server/src/utils/api-response.ts",
-        "files": [],
-        "dependencies": [],
-        "dependents": [],
-        "metadata": {
-          "description": "Utility for standardizing API responses across the application.",
-          "version": "1.0.0",
-          "tags": [
-            "success-response",
-            "error-response"
-          ]
-        },
-        "packages": {
-          "dependencies": [],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: medium, stack: backend)"
           }
         ]
       }
@@ -282,185 +255,28 @@
   "frontend": {
     "modules": [
       {
-        "id": "39a18697-6524-4c16-9842-5e7d7ee857b2",
-        "name": "login-page",
+        "id": "ceac55a7-e1c4-413e-9e3c-b68dbd57effb",
+        "name": "products-page",
         "type": "page",
         "stack": "frontend",
         "status": "pending",
-        "path": "client/src/pages/login.tsx",
+        "path": "client/src/pages/products/index.tsx",
         "files": [],
         "dependencies": [
-          "authentication"
+          "product-card",
+          "api",
+          "filter"
         ],
         "dependents": [],
         "metadata": {
-          "description": "Login page for user authentication.",
+          "description": "Products listing page with filters, search, pagination, and sorting",
           "version": "1.0.0",
           "tags": [
-            "user-login",
-            "redirect-after-login"
-          ]
-        },
-        "packages": {
-          "dependencies": [
-            "axios"
-          ],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
-          }
-        ]
-      },
-      {
-        "id": "d4f4aefe-e901-494b-9223-cb1ff19d5f12",
-        "name": "register-page",
-        "type": "page",
-        "stack": "frontend",
-        "status": "pending",
-        "path": "client/src/pages/register.tsx",
-        "files": [],
-        "dependencies": [
-          "authentication"
-        ],
-        "dependents": [],
-        "metadata": {
-          "description": "Registration page for new users.",
-          "version": "1.0.0",
-          "tags": [
-            "user-registration",
-            "form-validation"
-          ]
-        },
-        "packages": {
-          "dependencies": [
-            "axios"
-          ],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
-          }
-        ]
-      },
-      {
-        "id": "2d08dc41-d1df-43e2-8d72-44a316d34864",
-        "name": "dashboard-page",
-        "type": "page",
-        "stack": "frontend",
-        "status": "pending",
-        "path": "client/src/pages/dashboard.tsx",
-        "files": [],
-        "dependencies": [
-          "user"
-        ],
-        "dependents": [],
-        "metadata": {
-          "description": "Main dashboard page for logged-in users.",
-          "version": "1.0.0",
-          "tags": [
-            "display-user-info",
-            "manage-preferences"
-          ]
-        },
-        "packages": {
-          "dependencies": [
-            "axios"
-          ],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
-          }
-        ]
-      },
-      {
-        "id": "b00340bc-6192-4ade-8c22-6b71f19d5ef6",
-        "name": "policy-list-page",
-        "type": "page",
-        "stack": "frontend",
-        "status": "pending",
-        "path": "client/src/pages/policies/index.tsx",
-        "files": [],
-        "dependencies": [
-          "policy"
-        ],
-        "dependents": [],
-        "metadata": {
-          "description": "Page for listing all policies with options to create, update, and delete.",
-          "version": "1.0.0",
-          "tags": [
-            "list-policies",
-            "create-policy",
-            "update-policy",
-            "delete-policy"
-          ]
-        },
-        "packages": {
-          "dependencies": [
-            "axios"
-          ],
-          "devDependencies": []
-        },
-        "config": {
-          "env": [],
-          "scripts": {}
-        },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
-        "generationLog": [
-          {
-            "timestamp": "2026-02-17T10:31:04.948Z",
-            "action": "created",
-            "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
-          }
-        ]
-      },
-      {
-        "id": "e3df810e-9c7c-4b96-8c6f-1f559544022f",
-        "name": "policy-form",
-        "type": "component",
-        "stack": "frontend",
-        "status": "pending",
-        "path": "client/src/components/policy/PolicyForm.tsx",
-        "files": [],
-        "dependencies": [
-          "api"
-        ],
-        "dependents": [],
-        "metadata": {
-          "description": "Reusable form component for creating and updating policies.",
-          "version": "1.0.0",
-          "tags": [
-            "form-validation",
-            "submit-policy"
+            "list-products",
+            "filter-products",
+            "search-products",
+            "sort-products",
+            "pagination"
           ]
         },
         "packages": {
@@ -471,11 +287,11 @@
           "env": [],
           "scripts": {}
         },
-        "createdAt": "2026-02-17T10:31:04.948Z",
-        "updatedAt": "2026-02-17T10:31:04.948Z",
+        "createdAt": "2026-02-23T12:33:03.910Z",
+        "updatedAt": "2026-02-23T12:33:03.910Z",
         "generationLog": [
           {
-            "timestamp": "2026-02-17T10:31:04.948Z",
+            "timestamp": "2026-02-23T12:33:03.910Z",
             "action": "created",
             "message": "Auto-detected from blueprint (priority: high, stack: frontend)"
           }
@@ -483,39 +299,37 @@
       }
     ]
   },
-  "generatedAt": "2026-02-17T10:30:46.550Z",
-  "lastModifiedAt": "2026-02-17T10:30:46.553Z",
+  "generatedAt": "2026-02-23T12:32:48.614Z",
+  "lastModifiedAt": "2026-02-23T12:32:48.615Z",
   "dependencyGraph": {
-    "07c64d2d-ab0e-47c9-b2f0-c93e75a13819": [
-      "database"
+    "f6b5efef-2eee-4ccf-9eb9-02125e8f14d3": [
+      "database",
+      "storage",
+      "cache"
     ],
-    "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136": [
-      "database"
+    "bb7d5112-bed4-4b6c-b6a7-2937460ddb82": [
+      "database",
+      "f6b5efef-2eee-4ccf-9eb9-02125e8f14d3"
     ],
-    "28f7e74a-78a5-4563-8b86-e88e54d9aa95": [
-      "database"
+    "c4586daf-72d3-4c78-b53c-b79dad8e67f8": [
+      "database",
+      "bb7d5112-bed4-4b6c-b6a7-2937460ddb82",
+      "f6b5efef-2eee-4ccf-9eb9-02125e8f14d3"
     ],
-    "24445d38-03d5-4a14-b08f-7169bdd6662d": [
-      "database"
+    "eaedeccb-21ac-4100-8373-72aacc7ef4d7": [
+      "database",
+      "bb7d5112-bed4-4b6c-b6a7-2937460ddb82",
+      "c4586daf-72d3-4c78-b53c-b79dad8e67f8",
+      "723bfffd-2fc3-4f74-95a1-aee2d0c7fb0f"
     ],
-    "5e251615-6f3b-4fa8-ab81-93da432f4a57": [
-      "database"
+    "723bfffd-2fc3-4f74-95a1-aee2d0c7fb0f": [
+      "database",
+      "c4586daf-72d3-4c78-b53c-b79dad8e67f8"
     ],
-    "8e0604a7-f159-4630-be5d-50480d353d8f": [],
-    "39a18697-6524-4c16-9842-5e7d7ee857b2": [
-      "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136"
-    ],
-    "d4f4aefe-e901-494b-9223-cb1ff19d5f12": [
-      "ddd62fe2-75c9-49e8-a7a3-e14ce7e23136"
-    ],
-    "2d08dc41-d1df-43e2-8d72-44a316d34864": [
-      "28f7e74a-78a5-4563-8b86-e88e54d9aa95"
-    ],
-    "b00340bc-6192-4ade-8c22-6b71f19d5ef6": [
-      "07c64d2d-ab0e-47c9-b2f0-c93e75a13819"
-    ],
-    "e3df810e-9c7c-4b96-8c6f-1f559544022f": [
-      "api"
+    "ceac55a7-e1c4-413e-9e3c-b68dbd57effb": [
+      "product-card",
+      "api",
+      "filter"
     ]
   },
   "codeStyle": {
@@ -554,20 +368,19 @@
     "onError": []
   },
   "statistics": {
-    "totalModules": 11,
+    "totalModules": 6,
     "totalFiles": 0,
     "modulesByType": {
       "api-module": 5,
-      "util": 1,
-      "page": 4,
-      "component": 1
+      "page": 1
     },
     "modulesByStatus": {
-      "pending": 11
+      "pending": 6
     }
   },
   "protectedBranches": [
     "main",
-    "master"
+    "master",
+    "Nk/Main"
   ]
 }

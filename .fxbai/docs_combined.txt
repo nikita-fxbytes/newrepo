@@ -1,29 +1,41 @@
 Consolidated Policy Document
 
 Overview / Purpose
-This document defines mandatory technical, security, and architectural rules to ensure consistent API behavior, strong security practices, scalable and maintainable architecture, and clear backend–frontend contracts.
+This document defines mandatory technical, security, and architectural rules to ensure consistent API behavior, strong security practices, scalable and maintainable architecture, and clear backend–frontend contract.
 
 Governance & Priority
-The priority order for policy enforcement is as follows: Common Policy > Client Policy > Stack Policy Guideline.
+1. Common Policy
+2. Client Policy
+3. Stack Policy Guideline
 
 Security
 - HTTPS is mandatory for all APIs.
-- Explicit CORS configuration is required; allow only whitelisted frontend origins and required HTTP methods.
-- Sensitive data must not be included in URLs or query parameters.
-- Tokens must never be stored in localStorage; use secure cookies instead.
+- CORS must be explicitly configured to allow only whitelisted frontend origins.
+- Sensitive data must never be included in URLs or query parameters.
+- Tokens must not be stored in localStorage; use secure cookies instead.
 - Refresh tokens must be invalidated upon logout.
-- All inputs must be validated using DTOs.
-- Follow OWASP Top 10 security practices.
+- All inputs must be validated, and no raw request body should be accessed.
+- Use Helmet to enhance security.
+- Validate all inputs and sanitize external data.
+- Follow OWASP secure coding practices.
 
 Backend Guidelines
-- All business logic must reside within modules; no business logic in main.ts.
-- One module corresponds to one business domain, containing one controller and one service.
-- DTOs, entities, and interfaces must be separated.
+- All business logic must reside within modules.
+- One module corresponds to one business domain.
+- Each module must contain one controller and one service.
+- DTOs, entities, and interfaces must be organized in their respective directories.
+- Controllers handle only request and response; no business logic should be present.
+- Services contain all business logic and must be reusable.
+- Global exception filters must be used for error handling.
 - Use JWT for authentication with short-lived access tokens and long-lived refresh tokens.
-- Implement role-based access control (RBAC) for authorization; no protected API can be accessed without a valid access token.
+- Role-based access control (RBAC) must be implemented.
+- Authorization checks must occur at the controller and guard levels.
+- No protected API should be accessible without a valid access token.
 
 API Standards
-- APIs must follow RESTful, resource-oriented design principles; URL format: /api/v1/<resource> using lowercase, kebab-case, plural nouns.
+- APIs must follow RESTful, resource-oriented principles.
+- URL format: /api/v1/<resource> using lowercase, kebab-case, and plural nouns.
+- No verbs should be included in URLs.
 - Standard response format must be used:
   {
     "success": true,
@@ -38,18 +50,28 @@ API Standards
     "message": "Validation failed",
     "errors": []
   }
-- API versioning must be URL-based.
+- Every API must utilize a DTO for input validation.
+- Validation must occur before controller execution.
+- Strict typing, formats, and constraints must be enforced.
+- Use global interceptors for response transformation and performance monitoring.
 
 Code Quality & Reviews
-- Services must have unit tests, and controllers must have integration tests; code coverage must meet a minimum of 80%.
-- All schema changes must be tested via migrations.
-- File names must follow kebab-case, class names must use PascalCase, and variable names must follow camelCase.
+- Services must have unit tests, and controllers must have integration tests.
+- Code reviews must verify adherence to security rules, naming conventions, and DTO usage.
+- Coverage minimum: 80%.
+- File names must follow kebab-case.
+- Class names must use PascalCase.
+- Variables must use camelCase, with boolean variables prefixed by "is", "has", or "should".
+- Functions must be verb-based and use camelCase.
 
 Testing / Release
-- Every API must utilize a DTO; validation must occur before controller execution.
-- Use global exception filters to manage errors and log them using a centralized logger.
-- Migrations must be versioned and tested in CI; never change schema manually in production.
+- Every migration must be tested.
+- Schema validation must run in CI.
+- Migrations must be reversible.
+- Testing rules must ensure that unit tests mock repositories and integration tests use the real database.
 
 Compliance Checklist
-- Code reviews must verify security rules, naming conventions, DTO usage, and response structure.
-- Violations must be fixed before merge; ensure compliance with all stated policies.
+- Code reviews must verify security rules, naming conventions, and DTO usage.
+- Violations must be fixed before merge.
+- All schema changes must be versioned via migration.
+- Never modify schema manually in production.
