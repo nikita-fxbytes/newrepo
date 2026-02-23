@@ -1,0 +1,693 @@
+{
+  "schemaVersion": "v1",
+  "projectId": "newrepo",
+  "databaseType": "PostgreSQL",
+  "orm": "TypeORM",
+  "tables": [
+    {
+      "name": "users",
+      "description": "User accounts with authentication and profile information",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)",
+          "isNullable": false,
+          "isUnique": true,
+          "description": "User email for authentication",
+          "isPrimaryKey": false
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(255)",
+          "isNullable": false,
+          "description": "Bcrypt hashed password",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "isNullable": false,
+          "defaultValue": "'active'",
+          "checkConstraint": "status IN ('active', 'inactive', 'suspended', 'banned')",
+          "description": "Account status",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "email_verified",
+          "type": "BOOLEAN",
+          "isNullable": false,
+          "defaultValue": "false",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": true,
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_users_email",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true,
+          "description": "Unique index for email authentication"
+        },
+        {
+          "name": "idx_users_status",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_users_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "roles",
+      "description": "Roles for user authorization",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(50)",
+          "isNullable": false,
+          "isUnique": true,
+          "description": "Role name",
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "user_roles",
+      "description": "Junction table for users and roles",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing users",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "role_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing roles",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_user_roles_user_id",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_user_roles_role_id",
+          "columns": [
+            "role_id"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "products",
+      "description": "Product details and attributes",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(255)",
+          "isNullable": false,
+          "description": "Product name",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "isNullable": true,
+          "description": "Product description",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "price",
+          "type": "NUMERIC(19,4)",
+          "isNullable": false,
+          "description": "Product price",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "stock_quantity",
+          "type": "INTEGER",
+          "isNullable": false,
+          "defaultValue": "0",
+          "description": "Available stock quantity",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": true,
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_products_name",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_products_price",
+          "columns": [
+            "price"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_products_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "description": "Product categories for organization",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100)",
+          "isNullable": false,
+          "isUnique": true,
+          "description": "Category name",
+          "isPrimaryKey": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "product_categories",
+      "description": "Junction table for products and categories",
+      "columns": [
+        {
+          "name": "product_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing products",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "category_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing categories",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_product_categories_product_id",
+          "columns": [
+            "product_id"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_product_categories_category_id",
+          "columns": [
+            "category_id"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "description": "Order details and status",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "user_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing users",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "isNullable": false,
+          "defaultValue": "'pending'",
+          "checkConstraint": "status IN ('pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded')",
+          "description": "Order status",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "total_amount",
+          "type": "NUMERIC(19,4)",
+          "isNullable": false,
+          "description": "Total order amount",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_orders_user_id",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_orders_status",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_orders_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "order_items",
+      "description": "Items included in each order",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "order_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing orders",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "product_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing products",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "quantity",
+          "type": "INTEGER",
+          "isNullable": false,
+          "description": "Quantity of the product ordered",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "price",
+          "type": "NUMERIC(19,4)",
+          "isNullable": false,
+          "description": "Price of the product at the time of order",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_order_items_order_id",
+          "columns": [
+            "order_id"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_order_items_product_id",
+          "columns": [
+            "product_id"
+          ],
+          "isUnique": false
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "description": "Payment transactions for orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID",
+          "isNullable": false,
+          "isPrimaryKey": true,
+          "isUnique": true,
+          "defaultValue": "uuid_generate_v4()",
+          "description": "Primary key"
+        },
+        {
+          "name": "order_id",
+          "type": "UUID",
+          "isNullable": false,
+          "description": "Foreign key referencing orders",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "amount",
+          "type": "NUMERIC(19,4)",
+          "isNullable": false,
+          "description": "Payment amount",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)",
+          "isNullable": false,
+          "defaultValue": "'pending'",
+          "checkConstraint": "status IN ('pending', 'completed', 'failed', 'refunded')",
+          "description": "Payment status",
+          "isPrimaryKey": false,
+          "isUnique": false
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP WITH TIME ZONE",
+          "isNullable": false,
+          "defaultValue": "CURRENT_TIMESTAMP",
+          "isPrimaryKey": false,
+          "isUnique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "idx_payments_order_id",
+          "columns": [
+            "order_id"
+          ],
+          "isUnique": false
+        },
+        {
+          "name": "idx_payments_status",
+          "columns": [
+            "status"
+          ],
+          "isUnique": false
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "type": "one-to-many",
+      "fromTable": "users",
+      "fromColumns": [
+        "id"
+      ],
+      "toTable": "orders",
+      "toColumns": [
+        "user_id"
+      ],
+      "onDelete": "RESTRICT",
+      "onUpdate": "CASCADE"
+    },
+    {
+      "type": "one-to-many",
+      "fromTable": "orders",
+      "fromColumns": [
+        "id"
+      ],
+      "toTable": "order_items",
+      "toColumns": [
+        "order_id"
+      ],
+      "onDelete": "CASCADE",
+      "onUpdate": "CASCADE"
+    },
+    {
+      "type": "one-to-many",
+      "fromTable": "products",
+      "fromColumns": [
+        "id"
+      ],
+      "toTable": "product_categories",
+      "toColumns": [
+        "product_id"
+      ],
+      "onDelete": "CASCADE",
+      "onUpdate": "CASCADE"
+    },
+    {
+      "type": "one-to-many",
+      "fromTable": "users",
+      "fromColumns": [
+        "id"
+      ],
+      "toTable": "user_roles",
+      "toColumns": [
+        "user_id"
+      ],
+      "onDelete": "CASCADE",
+      "onUpdate": "CASCADE"
+    },
+    {
+      "type": "one-to-many",
+      "fromTable": "roles",
+      "fromColumns": [
+        "id"
+      ],
+      "toTable": "user_roles",
+      "toColumns": [
+        "role_id"
+      ],
+      "onDelete": "CASCADE",
+      "onUpdate": "CASCADE"
+    }
+  ],
+  "enums": [
+    {
+      "name": "user_status",
+      "values": [
+        "active",
+        "inactive",
+        "suspended",
+        "banned"
+      ]
+    },
+    {
+      "name": "order_status",
+      "values": [
+        "pending",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled",
+        "refunded"
+      ]
+    },
+    {
+      "name": "payment_status",
+      "values": [
+        "pending",
+        "completed",
+        "failed",
+        "refunded"
+      ]
+    }
+  ],
+  "extensions": [
+    "uuid-ossp",
+    "pgcrypto",
+    "pg_trgm"
+  ],
+  "triggers": [
+    {
+      "name": "update_users_updated_at",
+      "table": "users",
+      "timing": "BEFORE UPDATE",
+      "events": [
+        "UPDATE"
+      ],
+      "definition": "NEW.updated_at = CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "update_products_updated_at",
+      "table": "products",
+      "timing": "BEFORE UPDATE",
+      "events": [
+        "UPDATE"
+      ],
+      "definition": "NEW.updated_at = CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "update_orders_updated_at",
+      "table": "orders",
+      "timing": "BEFORE UPDATE",
+      "events": [
+        "UPDATE"
+      ],
+      "definition": "NEW.updated_at = CURRENT_TIMESTAMP"
+    }
+  ],
+  "generatedAt": "2026-02-23T12:34:30.540Z"
+}
