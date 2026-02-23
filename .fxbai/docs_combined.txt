@@ -1,0 +1,55 @@
+Consolidated Policy Document
+
+Overview / Purpose
+This document defines mandatory technical, security, and architectural rules to ensure consistent API behavior, strong security practices, scalable and maintainable architecture, and clear backend–frontend contracts.
+
+Governance & Priority
+The priority order for policy enforcement is as follows: Common Policy > Client Policy > Stack Policy Guideline.
+
+Security
+- HTTPS is mandatory for all APIs.
+- Explicit CORS configuration is required; allow only whitelisted frontend origins and required HTTP methods.
+- Sensitive data must not be included in URLs or query parameters.
+- Tokens must never be stored in localStorage; use secure cookies instead.
+- Refresh tokens must be invalidated upon logout.
+- All inputs must be validated using DTOs.
+- Follow OWASP Top 10 security practices.
+
+Backend Guidelines
+- All business logic must reside within modules; no business logic in main.ts.
+- One module corresponds to one business domain, containing one controller and one service.
+- DTOs, entities, and interfaces must be separated.
+- Use JWT for authentication with short-lived access tokens and long-lived refresh tokens.
+- Implement role-based access control (RBAC) for authorization; no protected API can be accessed without a valid access token.
+
+API Standards
+- APIs must follow RESTful, resource-oriented design principles; URL format: /api/v1/<resource> using lowercase, kebab-case, plural nouns.
+- Standard response format must be used:
+  {
+    "success": true,
+    "statusCode": 200,
+    "message": "Operation successful",
+    "data": {}
+  }
+- Error responses must follow this format:
+  {
+    "success": false,
+    "statusCode": 400,
+    "message": "Validation failed",
+    "errors": []
+  }
+- API versioning must be URL-based.
+
+Code Quality & Reviews
+- Services must have unit tests, and controllers must have integration tests; code coverage must meet a minimum of 80%.
+- All schema changes must be tested via migrations.
+- File names must follow kebab-case, class names must use PascalCase, and variable names must follow camelCase.
+
+Testing / Release
+- Every API must utilize a DTO; validation must occur before controller execution.
+- Use global exception filters to manage errors and log them using a centralized logger.
+- Migrations must be versioned and tested in CI; never change schema manually in production.
+
+Compliance Checklist
+- Code reviews must verify security rules, naming conventions, DTO usage, and response structure.
+- Violations must be fixed before merge; ensure compliance with all stated policies.

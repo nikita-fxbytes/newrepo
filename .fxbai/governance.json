@@ -1,0 +1,69 @@
+{
+    "policies": {
+        "commitHygiene": {
+            "enabled": true,
+            "rules": [
+                "Use conventional commits (feat, fix, refactor, etc.)",
+                "No mixed changes (e.g., mixing logic with styling)",
+                "Meaningful commit messages"
+            ]
+        },
+        "structure": {
+            "enabled": true,
+            "frameworks": [
+                "nextjs",
+                "nestjs",
+                "express"
+            ],
+            "rules": [
+                "Controllers must be in /controllers or /api",
+                "Components must be in /components",
+                "Services must be in /services"
+            ]
+        },
+        "safety": {
+            "enabled": true,
+            "checkSecrets": true,
+            "checkDangerousOps": true,
+            "blacklist": [
+                ".env",
+                "config/private.json",
+                "id_rsa"
+            ]
+        },
+        "prRequirements": {
+            "enabled": true,
+            "checkDescription": true,
+            "checkTickets": true,
+            "minDescriptionLength": 20
+        },
+        "validation": {
+            "commands": [
+                {
+                    "name": "Lint (client)",
+                    "cmd": "cd client && npm run lint"
+                },
+                {
+                    "name": "Build (client)",
+                    "cmd": "cd client && npm run build"
+                },
+                {
+                    "name": "Type Check (client)",
+                    "cmd": "cd client && npx tsc --noEmit"
+                },
+                {
+                    "name": "Lint (server)",
+                    "cmd": "cd server && npm run lint"
+                },
+                {
+                    "name": "Build (server)",
+                    "cmd": "cd server && npm run build"
+                },
+                {
+                    "name": "Type Check (server)",
+                    "cmd": "cd server && npx tsc --noEmit"
+                }
+            ]
+        }
+    }
+}

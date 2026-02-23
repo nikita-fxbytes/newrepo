@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "v1",
+  "project": {
+    "name": "Consolidated Policy Document",
+    "description": "Defines mandatory technical, security, and architectural rules for consistent API behavior, strong security practices, scalable and maintainable architecture, and clear backend–frontend contracts.",
+    "domain": "TBD",
+    "owner": "TBD"
+  },
+  "stack": {
+    "backend": {
+      "framework": "NestJS",
+      "language": "TypeScript",
+      "runtime": "TBD",
+      "version": "TBD",
+      "not_used": false
+    },
+    "frontend": {
+      "framework": "Next",
+      "language": "TBD",
+      "stateManagement": "TBD",
+      "styling": "Material UI",
+      "not_used": false
+    },
+    "database": {
+      "type": "PostgreSQL",
+      "orm": "TypeORM",
+      "migrationStrategy": "TBD",
+      "not_used": true
+    }
+  },
+  "architecture": {
+    "style": "TBD",
+    "modulesPattern": "One module corresponds to one business domain, containing one controller and one service.",
+    "sharedPattern": "Shared logic must be placed in common or utils directories.",
+    "configPattern": "TBD",
+    "apiStyle": "RESTful, resource-oriented design principles; URL format: /api/v1/<resource> using lowercase, kebab-case, plural nouns."
+  },
+  "security": {
+    "authentication": "TBD",
+    "authorization": "TBD",
+    "secretsManagement": "TBD",
+    "rateLimit": false,
+    "refreshToken": true,
+    "auditing": false
+  },
+  "testing": {
+    "backend": {
+      "framework": "TBD",
+      "helpers": [],
+      "optional": [],
+      "coverageTarget": 0
+    },
+    "frontend": {
+      "unit": [
+        "TBD"
+      ],
+      "component": [
+        "TBD"
+      ],
+      "e2e": [
+        "TBD"
+      ]
+    }
+  },
+  "deployment": {
+    "containerized": false,
+    "ci": "TBD",
+    "cd": "TBD",
+    "hosting": "TBD",
+    "environments": [
+      "TBD"
+    ],
+    "rolloutStrategy": "TBD"
+  },
+  "nonFunctional": {
+    "expectedUsers": 0,
+    "scalability": "TBD",
+    "availability": "TBD",
+    "latency": "TBD",
+    "compliance": []
+  },
+  "requirements": {
+    "functional": [
+      "TBD: Define at least one functional requirement from project docs."
+    ],
+    "constraints": [],
+    "outOfScope": []
+  },
+  "assumptions": []
+}

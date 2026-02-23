@@ -1,0 +1,72 @@
+name: AI PR Validation
+
+on:
+  pull_request:
+    branches: [ main, master, development ]
+    types: [ opened, synchronize, reopened ]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # If using package-lock.json at root, you can uncomment below to speed up builds:
+          # cache: 'npm'
+          # If your lock file is in a subdirectory (monorepo), use:
+          # cache-dependency-path: './client/package-lock.json'
+
+      - name: Install Project Dependencies (Root)
+        run: |
+          if [ -f package.json ]; then
+            echo "📦 Root package.json found. Installing dependencies..."
+            npm install
+          else
+            echo "ℹ️ No package.json found in root. Skipping root install."
+          fi
+
+      - name: Setup and Run AI Governance
+        env:
+          MY_TOKEN: ${{ secrets.AGENTIC_AI_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          AI_PROVIDER: ${{ secrets.AI_PROVIDER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+          AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}
+        run: |
+          set -x
+          echo "🚀 Initializing AI Governance Agent..."
+          
+          # 1. Clone CLI to a safe place outside the project workspace
+          CLI_PATH="$HOME/agentic-ai-cli-tool"
+          rm -rf $CLI_PATH
+          # Cloning the specific branch where the latest fixes are
+          git clone -b feat/34-ai-git-aware-workflow https://x-access-token:${MY_TOKEN}@github.com/fxbytesin/AgenticAi.git $CLI_PATH
+          
+          echo "--- CLI Directory Contents (Recursive) ---"
+          ls -R $CLI_PATH
+          echo "------------------------------------------"
+
+          # 2. Setup and Build CLI in its own directory
+          cd $CLI_PATH
+          npm install
+          npm run build
+          
+          # 3. Go back to project workspace and run the tool
+          cd ${{ github.workspace }}
+          echo "🔍 Running validation on: $(pwd)"
+          node $CLI_PATH/dist/cli.js validate-pr --pr-number ${{ github.event.pull_request.number }}
